@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ศึกพลังงานจูลจ๋า</title>
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#ffe9a8;--bg2:#ffc2d9;--card:#fffdf6;--ink:#2b2250;--mut:#6b6290;--pri:#6c4cff;--ok:#1fa66a;--bad:#e5484d;--line:#e3dcf7;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#2a2060;--bg2:#4a1d57;--card:#2f2766;--ink:#fff7e0;--mut:#c4bbee;--pri:#9a85ff;--line:#4a4090}}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}
+body{font-family:'Mali','Noto Sans Thai Looped',Tahoma,sans-serif;color:var(--ink);background:linear-gradient(160deg,var(--bg1),var(--bg2));background-attachment:fixed}
+.wrap{max-width:720px;margin:0 auto;padding:16px}
+.card{background:var(--card);border-radius:22px;padding:18px;border:3px solid var(--line);box-shadow:0 6px 0 var(--line)}
+h1{font-size:2rem;margin:.2em 0;text-align:center;line-height:1.2}h2{margin:.2em 0}
+.sub{text-align:center;color:var(--mut);margin:0 0 12px}
+.hero{font-size:3.4rem;text-align:center;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px) rotate(4deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row.c{justify-content:center}
+.btn{font:inherit;font-weight:700;border:0;border-radius:16px;padding:12px 18px;background:var(--pri);color:#fff;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.25);font-size:1rem}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.25)}.btn.alt{background:#ffb703;color:#2b2250}
+.btn:focus-visible,.opt:focus-visible,.chip:focus-visible{outline:4px solid #ff6fb1;outline-offset:2px}
+.chip{font:inherit;border:3px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;padding:8px 14px;cursor:pointer;font-weight:600}
+.chip.on{border-color:var(--pri);background:var(--pri);color:#fff}
+.pl{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;margin:8px 0;padding:8px;border-radius:14px;background:rgba(108,76,255,.08)}
+.pl input{font:inherit;padding:8px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);width:100%}
+.chars{display:flex;gap:4px;flex-wrap:wrap;grid-column:1/-1}
+.chars button{font-size:1.7rem;border:3px solid transparent;border-radius:12px;background:var(--card);cursor:pointer;padding:2px 6px}
+.chars button.on{border-color:var(--pri);background:#ffe9a8}
+.score{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:12px}
+.sc{background:var(--card);border:3px solid var(--line);border-radius:16px;padding:6px 10px;text-align:center;font-size:.9rem}
+.sc.turn{border-color:var(--pri);background:#efe9ff;color:#2b2250;transform:scale(1.04)}
+.sc b{font-size:1.3rem}
+.bar{height:14px;border-radius:9px;background:var(--line);overflow:hidden;margin:8px 0}
+.bar i{display:block;height:100%;background:var(--ok);width:100%;transition:width .25s linear,background .3s}
+.q{font-size:1.2rem;font-weight:700;margin:6px 0 12px}
+.tag{display:inline-block;background:#ffb703;color:#2b2250;border-radius:10px;padding:2px 10px;font-size:.85rem;font-weight:700}
+.opts{display:grid;gap:10px}
+.opt{font:inherit;text-align:left;padding:14px;border-radius:16px;border:3px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font-size:1.05rem;font-weight:600}
+.opt:hover:not(:disabled){border-color:var(--pri)}
+.opt.ok{background:#c9f5df;border-color:var(--ok);color:#124a31}.opt.bad{background:#ffd6d8;border-color:var(--bad);color:#6b1418}
+.fb{margin-top:12px;padding:12px;border-radius:16px;background:rgba(255,183,3,.2);border:2px dashed #ffb703}
+.gifts{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:10px 0}
+.gift{font-size:2.2rem;border:3px solid var(--line);background:var(--card);border-radius:16px;padding:6px 12px;cursor:pointer;min-width:64px}
+.gift:disabled{filter:grayscale(1);opacity:.45;cursor:not-allowed}
+.gift small{display:block;font-size:.7rem;font-family:inherit;color:var(--mut)}
+.gift.ready{animation:bob 1s infinite;border-color:#ff6fb1}
+.modal{position:fixed;inset:0;background:rgba(20,10,50,.65);display:flex;align-items:center;justify-content:center;padding:16px;z-index:20}
+.modal .card{max-width:380px;text-align:center}
+.big{font-size:4rem;animation:pop .6s}@keyframes pop{0%{transform:scale(.2) rotate(-20deg)}70%{transform:scale(1.3)}100%{transform:scale(1)}}
+.rank{display:flex;align-items:center;gap:10px;padding:10px;border-radius:16px;margin:8px 0;background:rgba(108,76,255,.1);font-weight:600}
+.rank.first{background:#ffe9a8;color:#2b2250;border:3px solid #ffb703}.rank .n{font-size:1.8rem}.rank .s{margin-left:auto;font-size:1.2rem}
+.hide{display:none}.small{font-size:.9rem;color:var(--mut)}
+</style>
+</head>
+<body><div class="wrap" id="app"></div>
+<script>
+const CHARS=['🐱','🐶','🐰','🦊','🐼','🐸','🦄','🐧'];
+const GIFT_AT=[20,45,80];
+const REWARDS=[
+ {e:'🏅',t:'เหรียญนักคิดหน้าใหม่',d:'คุณเริ่มสะสมพลังได้แล้ว เก่งมาก!'},
+ {e:'⚡',t:'พลังสายฟ้าจูล',d:'ความรู้เรื่องงานและพลังงานของคุณแล่นเร็วปรี๊ด!'},
+ {e:'🧪',t:'ตราสัญลักษณ์นักวิทย์น้อย',d:'โลกวิทยาศาสตร์ยินดีต้อนรับ!'},
+ {e:'🌟',t:'ดาวเด่นประจำห้อง',d:'ใครเห็นก็ต้องชื่นชมความตั้งใจของคุณ'},
+ {e:'🚀',t:'จรวดพลังงานจลน์',d:'พุ่งทะยานสู่คะแนนสูงๆ ไปเลย!'},
+ {e:'👑',t:'มงกุฎจอมพลังงาน',d:'ยกให้คุณเป็นราชา/ราชินีแห่งพลังงาน!'},
+ {e:'🍀',t:'สติ๊กเกอร์ฟ้าประทาน',d:'โชคดีมีชัย เก็บคะแนนต่อไปนะ!'},
+ {e:'🎖️',t:'ใบประกาศ "ใจสู้สุดๆ"',d:'ความพยายามของคุณน่าชื่นชม!'}];
+const QS=[
+ {c:'คำศัพท์',q:'"งาน" ในทางวิทยาศาสตร์ เกิดขึ้นเมื่อใด',o:['มีแรงกระทำต่อวัตถุแล้ววัตถุเคลื่อนที่ไปตามแนวแรง','ใช้เวลาทำการบ้านนานๆ','ยืนถือของอยู่นิ่งๆ','คิดเลขในใจ'],a:0,x:'งานในทางวิทยาศาสตร์ต้องมี "แรง" และ "การกระจัด" ไปตามแนวแรง ไม่ใช่แค่เหนื่อยหรือใช้ความคิด'},
+ {c:'คำศัพท์',q:'หน่วยของ "งาน" และ "พลังงาน" ในระบบ SI คือข้อใด',o:['วัตต์ (W)','จูล (J)','นิวตัน (N)','เมตร (m)'],a:1,x:'งานและพลังงานมีหน่วยเป็น จูล (J) ส่วนวัตต์เป็นหน่วยของกำลัง และนิวตันเป็นหน่วยของแรง'},
+ {c:'โจทย์',q:'ออกแรง 10 นิวตัน ผลักกล่องไปตามแนวแรงเป็นระยะ 5 เมตร ทำงานได้กี่จูล',o:['2 J','15 J','50 J','5 J'],a:2,x:'งาน = แรง × ระยะทาง = 10 × 5 = 50 จูล'},
+ {c:'สถานการณ์',q:'นักเรียนออกแรงผลักกำแพงสุดแรง แต่กำแพงไม่ขยับ งานที่ทำได้เป็นเท่าใด',o:['มากที่สุด','เท่ากับศูนย์','เท่ากับแรงที่ใช้','ไม่แน่นอน'],a:1,x:'ระยะทางที่วัตถุเคลื่อนที่ = 0 จึงได้ W = F × 0 = 0 แม้จะเหนื่อยก็ตาม'},
+ {c:'คำศัพท์',q:'พลังงานจลน์ คือพลังงานของวัตถุในข้อใด',o:['วัตถุที่อยู่สูงจากพื้น','วัตถุที่กำลังเคลื่อนที่','อาหารที่เรากิน','แบตเตอรี่ที่ชาร์จเต็ม'],a:1,x:'พลังงานจลน์เกิดจากการเคลื่อนที่ ยิ่งมวลมากและเร็วมาก พลังงานจลน์ยิ่งมาก'},
+ {c:'คำศัพท์',q:'พลังงานศักย์โน้มถ่วงของวัตถุ ขึ้นอยู่กับสิ่งใด',o:['สีและรูปร่าง','มวลและความสูงจากพื้น','อุณหภูมิ','ความเร็ว'],a:1,x:'Ep = mgh ขึ้นกับมวล (m) และความสูง (h) ยิ่งสูงยิ่งมีพลังงานศักย์มาก'},
+ {c:'โจทย์',q:'ก้อนหินมวล 2 กิโลกรัม อยู่สูง 5 เมตร (ให้ g = 10 m/s²) มีพลังงานศักย์กี่จูล',o:['10 J','50 J','100 J','200 J'],a:2,x:'Ep = mgh = 2 × 10 × 5 = 100 จูล'},
+ {c:'สถานการณ์',q:'ลูกบอลตกจากที่สูงลงมาสู่พื้น พลังงานเปลี่ยนรูปอย่างไร',o:['จลน์ → ศักย์','ศักย์ → จลน์','ความร้อน → เสียง','ไม่เปลี่ยนเลย'],a:1,x:'ตอนอยู่สูงมีพลังงานศักย์มาก ตกลงมาเร็วขึ้นจึงเปลี่ยนเป็นพลังงานจลน์'},
+ {c:'คำศัพท์',q:'กฎการอนุรักษ์พลังงานกล่าวว่าอย่างไร',o:['พลังงานสร้างขึ้นใหม่ได้เรื่อยๆ','พลังงานสูญหายไปเมื่อใช้งาน','พลังงานไม่สูญหายและไม่สร้างขึ้นใหม่ แต่เปลี่ยนรูปได้','พลังงานเกิดเฉพาะในร่างกาย'],a:2,x:'พลังงานรวมคงที่เสมอ เพียงแต่เปลี่ยนจากรูปหนึ่งไปอีกรูปหนึ่งหรือถ่ายโอนได้'},
+ {c:'คำศัพท์',q:'"กำลัง" หมายถึงอะไร และมีหน่วยเป็นอะไร',o:['งานที่ทำได้ต่อหนึ่งหน่วยเวลา หน่วยวัตต์','แรงต่อพื้นที่ หน่วยนิวตัน','ความเร็วต่อเวลา หน่วยเมตร','พลังงานสะสม หน่วยจูล'],a:0,x:'กำลัง = งาน ÷ เวลา หน่วยเป็นวัตต์ (W) ซึ่งเท่ากับ 1 จูลต่อวินาที'},
+ {c:'โจทย์',q:'เครื่องยกของทำงาน 200 จูล ใช้เวลา 10 วินาที มีกำลังกี่วัตต์',o:['2000 W','210 W','190 W','20 W'],a:3,x:'กำลัง = งาน ÷ เวลา = 200 ÷ 10 = 20 วัตต์'},
+ {c:'สถานการณ์',q:'หลอดไฟฟ้าเปลี่ยนพลังงานไฟฟ้าเป็นพลังงานรูปใดบ้าง',o:['แสงและความร้อน','เสียงอย่างเดียว','เคมีอย่างเดียว','ศักย์โน้มถ่วง'],a:0,x:'หลอดไฟเปลี่ยนไฟฟ้าเป็นแสงและความร้อน หลอดแอลอีดีเปลี่ยนเป็นแสงได้มากกว่าจึงประหยัดกว่า'}
+];
+const CHEER_OK=['เก่งมาก! 🎉','ถูกต้องเลย! 🌟','สุดยอด! ⚡','เยี่ยมไปเลย! 🚀'];
+const CHEER_BAD=['ไม่เป็นไรนะ ลองใหม่ข้อหน้า 💪','เกือบแล้ว! สู้ต่อ 🌈','พลาดนิดเดียว เรียนรู้จากเฉลยกัน 📘'];
+const TIME=20;
+let S={},$=id=>document.getElementById(id);
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+let setup={n:2,team:false,pl:[0,1,2,3].map(i=>({name:'',ch:i}))};
+function home(){
+ clearInterval(S.tm);
+ $('app').innerHTML=`<div class="card"><div class="hero">⚡🔋</div><h1>ศึกพลังงานจูลจ๋า</h1>
+ <p class="sub">เกมตอบคำถามเรื่องงานและพลังงาน สำหรับ ม.2 · ตอบเร็วได้คะแนนโบนัส · สะสมคะแนนเปิดกล่องของขวัญ!</p>
+ <b>1) เลือกรูปแบบการแข่ง</b>
+ <div class="row" style="margin:8px 0">
+  <button class="chip ${!setup.team?'on':''}" onclick="setup.team=false;home()">🧑 รายบุคคล</button>
+  <button class="chip ${setup.team?'on':''}" onclick="setup.team=true;home()">👥 แข่งเป็นทีม</button></div>
+ <b>2) จำนวน${setup.team?'ทีม':'ผู้เล่น'}</b>
+ <div class="row" style="margin:8px 0">${[1,2,3,4].map(n=>`<button class="chip ${setup.n==n?'on':''}" onclick="setup.n=${n};home()">${n}</button>`).join('')}</div>
+ <b>3) ตั้งชื่อและเลือกตัวละคร</b>
+ ${setup.pl.slice(0,setup.n).map((p,i)=>`<div class="pl"><span style="font-size:2rem">${CHARS[p.ch]}</span>
+  <input aria-label="ชื่อ" maxlength="12" placeholder="${setup.team?'ชื่อทีม':'ชื่อผู้เล่น'} ${i+1}" value="${esc(p.name)}" oninput="setup.pl[${i}].name=this.value">
+  <div class="chars">${CHARS.map((c,k)=>`<button aria-label="ตัวละคร ${k+1}" class="${p.ch==k?'on':''}" onclick="pickCh(${i},${k})">${c}</button>`).join('')}</div></div>`).join('')}
+ <p class="small">12 ข้อ · ${TIME} วินาทีต่อข้อ · ผู้เล่นผลัดกันตอบทีละข้อ · กล่องของขวัญเปิดได้ที่ ${GIFT_AT.join(' / ')} คะแนน</p>
+ <div class="row c"><button class="btn" onclick="start()">🚀 เริ่มเกม!</button></div></div>`;
+}
+function pickCh(i,k){
+ const keep=setup.pl.map(p=>p.name);
+ setup.pl[i].ch=k;home();
+}
+function start(){
+ const names=setup.pl.slice(0,setup.n);
+ S={players:names.map((p,i)=>({name:p.name.trim()||((setup.team?'ทีม ':'ผู้เล่น ')+(i+1)),ch:CHARS[p.ch],score:0,right:0,streak:0,opened:0,rewards:[]})),
+    qs:shuffle(QS).map(q=>{const idx=shuffle([0,1,2,3]);return{...q,o:idx.map(i=>q.o[i]),a:idx.indexOf(q.a)}}),i:0,locked:false};
+ nextQ();
+}
+function board(){
+ return `<div class="score">${S.players.map((p,k)=>`<div class="sc ${k==S.i%S.players.length?'turn':''}"><div>${p.ch} ${esc(p.name)}</div><b>${p.score}</b> คะแนน${p.streak>1?' 🔥'+p.streak:''}</div>`).join('')}</div>`;
+}
+function giftBar(p){
+ return `<div class="gifts">${GIFT_AT.map((g,k)=>{const unlocked=p.score>=g,opened=k<p.opened;
+  return `<button class="gift ${unlocked&&!opened?'ready':''}" ${unlocked&&!opened&&k==p.opened?'':'disabled'} onclick="openGift()" aria-label="กล่องของขวัญที่ ${k+1}">${opened?'📭':'🎁'}<small>${opened?'เปิดแล้ว':unlocked?'เปิดเลย!':g+' คะแนน'}</small></button>`}).join('')}</div>`;
+}
+function nextQ(){
+ if(S.i>=S.qs.length)return finish();
+ const q=S.qs[S.i],p=S.players[S.i%S.players.length];
+ S.locked=false;S.left=TIME;S.start=Date.now();
+ $('app').innerHTML=board()+`<div class="card"><div class="row" style="justify-content:space-between"><span class="tag">${q.c}</span><span>ข้อ ${S.i+1}/${S.qs.length}</span></div>
+ <p class="q">${p.ch} ตาของ <u>${esc(p.name)}</u><br>${esc(q.q)}</p>
+ <div class="bar" aria-hidden="true"><i id="bar"></i></div><div class="small" id="tl" aria-live="off">⏱️ ${TIME} วินาที</div>
+ <div class="opts" style="margin-top:8px">${q.o.map((o,k)=>`<button class="opt" onclick="answer(${k})">${'กขคง'[k]}. ${esc(o)}</button>`).join('')}</div>
+ <div id="fb"></div></div>`;
+ clearInterval(S.tm);
+ S.tm=setInterval(()=>{
+  const left=Math.max(0,TIME-(Date.now()-S.start)/1000);S.left=left;
+  const b=$('bar');if(b){b.style.width=(left/TIME*100)+'%';b.style.background=left<6?'var(--bad)':left<12?'#ffb703':'var(--ok)'}
+  const t=$('tl');if(t)t.textContent='⏱️ '+Math.ceil(left)+' วินาที';
+  if(left<=0){clearInterval(S.tm);answer(-1)}
+ },100);
+}
+function answer(k){
+ if(S.locked)return;S.locked=true;clearInterval(S.tm);
+ const q=S.qs[S.i],p=S.players[S.i%S.players.length],ok=k===q.a;
+ let msg,gain=0;
+ if(ok){
+  p.right++;p.streak++;
+  const bonus=Math.ceil(S.left/2);const sb=p.streak>=2?5:0;
+  gain=10+bonus+sb;p.score+=gain;
+  msg=`<b>${rnd(CHEER_OK)}</b> +${gain} คะแนน <span class="small">(พื้นฐาน 10 + เร็ว ${bonus}${sb?' + ตอบถูกติดกัน 5':''})</span>`;
+ }else{
+  p.streak=0;
+  msg=`<b>${k<0?'หมดเวลาแล้ว ⏰':'ยังไม่ถูกนะ'}</b> ${rnd(CHEER_BAD)}`;
+ }
+ document.querySelectorAll('.opt').forEach((b,i)=>{b.disabled=true;if(i===q.a)b.classList.add('ok');else if(i===k)b.classList.add('bad')});
+ const canGift=p.score>=GIFT_AT[p.opened]&&p.opened<GIFT_AT.length;
+ $('fb').innerHTML=`<div class="fb">${msg}<br>📘 <b>เฉลย:</b> ${esc(q.o[q.a])}<br>${esc(q.x)}</div>
+ ${canGift?`<div class="fb" style="background:rgba(255,111,177,.2);border-color:#ff6fb1">🎁 ${esc(p.name)} ปลดล็อกกล่องของขวัญแล้ว!</div>`:''}
+ <div class="row c" style="margin-top:12px">${canGift?`<button class="btn alt" onclick="openGift()">🎁 เปิดกล่องของขวัญ</button>`:''}
+ <button class="btn" onclick="S.i++;nextQ()">${S.i+1>=S.qs.length?'ดูผลการแข่งขัน 🏆':'ข้อต่อไป ➜'}</button></div>`;
+ const bd=document.querySelector('.score');if(bd)bd.outerHTML=board();
+}
+function openGift(){
+ const p=S.players[(S.locked?S.i:S.i)%S.players.length];
+ if(p.opened>=GIFT_AT.length||p.score<GIFT_AT[p.opened])return;
+ const r=REWARDS[(p.rewards.length*3+S.i)%REWARDS.length];
+ p.opened++;p.rewards.push(r);
+ const m=document.createElement('div');m.className='modal';m.setAttribute('role','dialog');
+ m.innerHTML=`<div class="card"><div class="big">${r.e}</div><h2>${esc(r.t)}</h2><p>${esc(r.d)}</p><p class="small">ของ ${p.ch} ${esc(p.name)}</p><button class="btn" onclick="this.closest('.modal').remove()">เก็บรางวัล!</button></div>`;
+ document.body.appendChild(m);
+ const g=document.querySelector('.alt');if(g)g.remove();
+}
+function finish(){
+ const rk=[...S.players].sort((a,b)=>b.score-a.score);
+ const top=rk[0].score,winners=rk.filter(p=>p.score===top);
+ const medals=['🥇','🥈','🥉','🏅'];
+ $('app').innerHTML=`<div class="card"><div class="hero">🏆</div><h1>${winners.length>1?'เสมอกัน! ทุกคนเก่งมาก':'ผู้ชนะคือ '+esc(winners[0].ch+' '+winners[0].name)}</h1>
+ <p class="sub">ทุกคนได้เรียนรู้และสนุกไปด้วยกัน ขอปรบมือให้ทุกคน 👏</p>
+ ${rk.map((p,i)=>`<div class="rank ${p.score===top?'first':''}"><span class="n">${p.score===top?'🥇':medals[Math.min(i,3)]}</span><span>${p.ch} ${esc(p.name)}<br><span class="small">ตอบถูก ${p.right}/${Math.ceil(S.qs.length/S.players.length)} ข้อโดยประมาณ · รางวัล ${p.rewards.map(r=>r.e).join(' ')||'-'}</span></span><span class="s">${p.score}</span></div>`).join('')}
+ <p class="small" style="text-align:center">${top>=GIFT_AT[2]?'ยอดเยี่ยมมาก! คุณเข้าใจเรื่องงานและพลังงานดีแล้ว':'ลองเล่นอีกรอบ แล้วจะได้คะแนนมากขึ้นแน่นอน สู้ๆ!'}</p>
+ <div class="row c"><button class="btn" onclick="start()">🔁 เล่นอีกครั้ง</button><button class="btn alt" onclick="home()">🏠 หน้าแรก</button></div></div>`;
+}
+home();
+</script>
+</body></html>
